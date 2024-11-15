@@ -10,7 +10,7 @@ reducers: {
     onOpenDateModal:(state)=>{
         state.isDateModalOpen=true;
     },
-    onCloseDateModal:()=>{
+    onCloseDateModal:(state)=>{
         state.isDateModalOpen=false;
     }
 }
