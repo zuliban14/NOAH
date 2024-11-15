@@ -1,5 +1,33 @@
 const pool = require('../../../database/connexion');
 
+
+/////prueba login////
+async function login(params) {
+  try {
+
+    const name = params.nombre_usuario;
+    const contra = params.clave_acceso;
+    const query=`select  
+        "_getpersonname"(p.numero_identificacion) as nombre,
+        p.numero_identificacion as "id"
+        from personas p 
+        INNER JOIN usuarios u on p.id=u.id_persona where nombre_usuario = $1 and  clave_acceso = $2`;
+    const response = await pool.query(query,[name,contra]);
+
+    console.log('services datos', name, contra);
+
+    if(response.rowCount==0){
+      return false;
+    }else{
+       return response.rows; 
+    }
+
+  } catch (error) {
+    throw error;
+  }
+};
+////////sesion////
+
 async function sesion(params) {
     try {
   
@@ -39,5 +67,6 @@ async function sesion(params) {
 
   module.exports = {
     sesion, 
-    buscarusuario
+    buscarusuario,
+    login
   }

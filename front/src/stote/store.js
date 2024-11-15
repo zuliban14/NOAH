@@ -9,7 +9,7 @@ import { uiSlice } from '../app/pages/full-layout-page/evaluacion-docente/ui/uiS
 
 export const store = configureStore({
   reducer: {
-    counter:counterSlice.reducer,
+    //counter:counterSlice.reducer,
     pokemons:pokemonSlice.reducer,
     auth:authSlice.reducer,
     ui:uiSlice.reducer

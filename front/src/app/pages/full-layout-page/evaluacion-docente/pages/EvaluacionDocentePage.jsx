@@ -17,7 +17,7 @@ export const EvaluacionDocentePage = () => {
     {/*<NothingSelectedView/> */}
     {/*<NoteView/>*/}
       {/* <ContadorView/>*/}
-   <PokemonView/>
+    <PokemonView/> 
     {/*<ModalAsp/>*/}
 
     <IconButton

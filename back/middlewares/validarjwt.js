@@ -2,7 +2,7 @@ const {response}= require('express');
 
 const validarJWT=(req, res=response, next)=>{
     //token en ek header
-    const token=req.heder('x-token');
+    const token=req.header('x-token');
     //console.log(token)
     if(!token){
         return res.status(401).json({
@@ -16,8 +16,10 @@ const validarJWT=(req, res=response, next)=>{
             token,
             process.env.SECRET_JWT_SEED
         )
+        console.log(payload);
+        
         req.id=payload.id
-        req.name=payload.name
+        req.nombre=payload.nombre
 
     }catch(error){
         return res.status(401).json({

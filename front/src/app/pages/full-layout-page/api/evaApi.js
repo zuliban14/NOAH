@@ -10,5 +10,13 @@ const evaApi= axios.create( {
       'Authorization': 'Bearer <tu_token>', // Si usas autenticación basada en tokens
     },
 });
+////configuracion para el token que  se encuentra en los headers
+evaApi.interceptors.request.use(config=>{
+   config.headers={
+      ...config.headers,
+      'x-token':localStorage.getItem('token')
+   }
+   return config
+})
 
 export default evaApi;

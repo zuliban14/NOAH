@@ -1,7 +1,9 @@
 
 import { TurnedInNot } from '@mui/icons-material'
 import{Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Grid} from '@mui/material'
+import { useAuthStore } from '../../../../../hooks';
 export const SideBar = ({drawerWidth=240}) => {
+    const{ user}=useAuthStore();//se llama al usuario t se muestra  
   return (
     <Box
     component='nav'
@@ -17,7 +19,7 @@ export const SideBar = ({drawerWidth=240}) => {
         >
             <Toolbar>
                 <Typography variant='h6' noWrap component='div'>
-                    Zully Gomez M
+                    {user.nombre}
                 </Typography>
             </Toolbar>
             <Divider/>

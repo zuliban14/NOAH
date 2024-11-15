@@ -16,8 +16,9 @@ onChecking:(state)=>{
    },
 
  onLogin:(state, {payload})=>{
+   console.log("Payload recibido en onLogin:", payload); // Revisa que contenga { id, nombre }
     state.status='authenticated';
-    state.user=payload;
+    state.user={ ...payload };
     state.errorMessage=undefined;
  
  }, 
@@ -27,7 +28,7 @@ onChecking:(state)=>{
   state.errorMessage=payload;
  },
 
- clearErrorMessage:()=>{
+ clearErrorMessage:(state)=>{
   state.errorMessage=undefined;
  }
 

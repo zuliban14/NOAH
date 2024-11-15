@@ -8,7 +8,7 @@ const routeMaster = require("./App/routes/routeMaster");
 app.use(cors({
   origin: '*',
   methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
+  allowedHeaders: 'Content-Type,Authorization, x-token',
 }));
 
 ///lectura y parseo del body, se pasa todas las peticiones web

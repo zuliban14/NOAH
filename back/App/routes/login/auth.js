@@ -6,11 +6,20 @@ const router = Router();
 const { check } = require('express-validator');
 
 // Exportamos el controlador o función 
-const { crearUsuario, revalidarToken, sesion } = require('../../src/login/authController');
+const { crearUsuario, revalidarToken, sesion, login} = require('../../src/login/authController');
 const { validarCampos } = require('../../../middlewares/validarcampos');
 
 
-
+////////ruta prueba /////
+router.post(
+    '/onlogin',
+    [
+        check('nombre_usuario', 'El usuario es obligatorio').not().isEmpty(),
+        check('clave_acceso', 'la password es obligatorio').not().isEmpty(),
+        validarCampos
+    ],
+    login
+);
 
 // Ruta para crear un nuevo usuario con validaciones
 router.post(
