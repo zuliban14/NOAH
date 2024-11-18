@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Modal from'react-modal';
 import {Typography, TextField, Button} from '@mui/material';
@@ -28,6 +28,15 @@ export const AspectoModal = () => {
    const [isOpen, setIsOpen] = useState(true)
    ///estado adicional para validar campo, por defecto no se ha realizado el submit del formulario
    const [formSubmitted, setformSubmitted] = useState(false);
+
+   ////constante para manejar erro, usuando useMemo
+  //  const nombreClass=useMemo(() => {
+  //   //Si el  formSubmit no se efectua entoses se envia un return y se muestra el error
+  //   if(!formSubmitted)return;
+  //   return(formValues.nombre.length>0)
+  //   ?'is-valid'
+
+  //  }, [formValues.nombre, formSubmitted])//dos dependencias si el titulo cambia se memoriza o si el formSubmit cambia
 
    ///para cerrar modal 
    const onCloseModal=()=>{
@@ -78,7 +87,7 @@ export const AspectoModal = () => {
                         name="nombre"
                         value={formValues.nombre}
                         onChange={onInputChange}
-                        className='form-control is-invalid'
+                        className={`form-control, ${nombreClass}` }
                     />
                     <TextField
                         label="Descripción"

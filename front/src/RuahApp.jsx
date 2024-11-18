@@ -15,26 +15,28 @@ const {checkAuthToken, startLogin, status}= useAuthStore();
   checkAuthToken()
  }, [])
 
+ if (status === 'checking') {
+  return <h3>Validando autenticación...</h3>; // Pantalla de carga mientras se valida
+}
+
   return (
     <AppTheme>
      <Routes>
      {
-        (status ==='not-authenticated')
-         ?(
-          <>
-            <Route path="login" element={ <LoginPage/>  }/>
-            <Route path="/*" element={ <Navigate to="/login"/>  }/> 
-          </>
-           )
-           :(
+          status === 'not-authenticated' ? (
+            // Rutas publicas
             <>
-             <Route path="/" element={ <EvaluacionDocentePage/>  }/>
-            <Route path="*" element={ <Navigate to="/"/>  }/> 
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/*" element={<Navigate to="/login" />} />
             </>
-            )
-                              
-            }       
-                           
+          ) : (
+            // Rutas privadas
+            <>
+              <Route path="/" element={<EvaluacionDocentePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          )
+        }        
                              
 
       </Routes>

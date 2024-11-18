@@ -6,9 +6,9 @@ const router = Router();
 const { check } = require('express-validator');
 
 // Exportamos el controlador o función 
-const { crearUsuario, revalidarToken, sesion, login} = require('../../src/login/authController');
+const { crearUsuario, revalidarToken, sesion, login, renewToken} = require('../../src/login/authController');
 const { validarCampos } = require('../../../middlewares/validarcampos');
-
+const{ validarJWT}=require('../../../middlewares/validarjwt')
 
 ////////ruta prueba /////
 router.post(
@@ -47,6 +47,7 @@ router.post(
 );
 
 // Ruta para renovar el token
-router.get('/renew', revalidarToken);
+router.get('/renew', validarJWT, revalidarToken);
+router.get('/renovar',validarJWT, renewToken);
 
 module.exports = router;

@@ -1,10 +1,11 @@
 import { Grid, TextField, Typography, Button, Grid2 } from "@mui/material"
 
 import { AspectoModal } from "../components"
+import { useUiStoreAsp } from "../../../../../hooks/useUiStore";
 
 
 export const AspectosView = () => {
-   // const { isDateModalOpen, openDateModal, closeDateModal } = useUiStoreAsp();
+   const { isDateModalOpen, openDateModal, closeDateModal } = useUiStoreAsp;
 
   return (
 
@@ -13,13 +14,13 @@ export const AspectosView = () => {
                 <Typography>aspectos para evaluar </Typography>
             </Grid>
             <Grid>
-            <Button variant="contained" color="primary" >
+            <Button variant="contained" color="primary"  >
                 Abrir Modal
             </Button>
-            <AspectoModal  />
+            {/* <AspectoModal open={isModalOpen} onClose={handleCloseModal} /> */}
             </Grid>
             
-           
+          
     
             
 

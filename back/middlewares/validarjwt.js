@@ -1,4 +1,5 @@
 const {response}= require('express');
+const jwt=require('jsonwebtoken');
 
 const validarJWT=(req, res=response, next)=>{
     //token en ek header
@@ -12,16 +13,13 @@ const validarJWT=(req, res=response, next)=>{
 
     }
     try{
-        const payload =jwt.verify(
-            token,
-            process.env.SECRET_JWT_SEED
-        )
-        console.log(payload);
-        
-        req.id=payload.id
-        req.nombre=payload.nombre
+        const { id, nombre } = jwt.verify(token, process.env.SECRET_JWT_SEED); // Decodifica el token
+        req.id = id; // Asigna los datos al request
+        req.nombre = nombre;
+        next();
 
     }catch(error){
+        console.error('Error al validar el token:', error);
         return res.status(401).json({
             ok: false,
             msg:'TOKEN NO VALIDO '

@@ -16,17 +16,23 @@ onChecking:(state)=>{
    },
 
  onLogin:(state, {payload})=>{
-   console.log("Payload recibido en onLogin:", payload); // Revisa que contenga { id, nombre }
-    state.status='authenticated';
-    state.user={ ...payload };
-    state.errorMessage=undefined;
+  console.log('Payload recibido en onLogin:', payload);
+  if (payload) {
+    state.status = 'authenticated';
+    state.user = { ...payload }; 
+    state.errorMessage = undefined;
+  } else {
+    state.status = 'not-authenticated';
+    state.user = {};
+    state.errorMessage = 'Error al autenticar';
+  }
  
  }, 
- onLogout:(state, {payload})=>{
-  state.status='not-authenticated';
-  state.user={};
-  state.errorMessage=payload;
- },
+ onLogout: (state) => {
+  state.status = 'not-authenticated';
+  state.user = {};
+  state.errorMessage = undefined;
+},
 
  clearErrorMessage:(state)=>{
   state.errorMessage=undefined;

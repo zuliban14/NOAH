@@ -15,29 +15,22 @@ export const useAuthStore = () => {
       try {
         const { data } = await evaApi.post('/login/onlogin', { nombre_usuario, clave_acceso });
   
-        if (!data.usuario) {
+        if (!data.id || !data.name) { // Verifica las propiedades correctas
           console.log('El usuario no existe', data);
           dispatch(onLogout('Usuario no encontrado'));
-          Swal.fire('Error en la autenticación', errorMessage, 'error');
+          Swal.fire('Error en la autenticación', 'Usuario no encontrado', 'error');
         } else {
           localStorage.setItem('token', data.token);
           localStorage.setItem('token-init-date', new Date().getTime());
-          //Extrae el primer elemento del array data.usuario antes de enviarlo al dispatch
-         if (data.usuario && Array.isArray(data.usuario) && data.usuario.length > 0) {
-            const { id, nombre } = data.usuario[0];///extrae los datos 
-            dispatch(onLogin({ id, nombre }));
-            console.log("¡Bienvenido!", data.usuario);
-          } else {
-            console.error("El formato de `data.usuario` no es el esperado.");
-          }
-          
-         //dispatch(onLogin({ id: data.usuario.id, nombre: data.usuario.nombre }));
+    
+          // Usa las propiedades correctas del objeto data
+          dispatch(onLogin({ id: data.id, nombre: data.name }));
          
 
     
           Swal.fire({
             title: '¡Bienvenido!',
-            text: 'Esto es un mensaje de bienvenid@"',
+            text: `Bienvenido, ${data.name}`,
             icon: 'info',
             confirmButtonText: 'Aceptar'
           });
@@ -55,34 +48,29 @@ export const useAuthStore = () => {
     }
 
     // ////revalidar el token //////////
-    const checkAuthToken=async()=>{
+    const checkAuthToken = async () => {
       const token = localStorage.getItem('token');
-      if(!token)return dispatch(onLogin());
+    
+      if (!token) {
+        dispatch(onLogout());
+        return;
+      }
+    
       try {
-        const {data}=await evaApi.get('/login/renew');
-        console.log("¡token", data);
+        const { data } = await evaApi.get('/login/renew', {
+          headers: { 'x-token': token },
+        });
+    
         localStorage.setItem('token', data.token);
         localStorage.setItem('token-init-date', new Date().getTime());
-        //console.log("¡token", data.usuario);
-
-        if (data.usuario && Array.isArray(data.usuario) && data.usuario.length > 0) {
-          const { id, nombre } = data.usuario[0];///extrae los datos 
-          dispatch(onLogin({ id, nombre }));
-          console.log("¡token", data.usuario);
-
-        }    else {
-          // Si data.usuario no es un arreglo válido, considera al usuario como no autenticado
-          dispatch(onLogout());
-        }
-
-
-
-        
+    
+        dispatch(onLogin({ id: data.id, nombre: data.nombre }));
       } catch (error) {
+        console.error('Error al renovar el token:', error);
         localStorage.clear();
-        dispatch(onLogin());
+        dispatch(onLogout());
       }
-    }
+    };
 
     //////logout para sacar al usuario ///
 
