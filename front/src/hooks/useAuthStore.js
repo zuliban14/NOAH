@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import evaApi from "../app/pages/full-layout-page/api/evaApi";
-import { onLogin, onLogout,onChecking, clearErrorMessage} from "../stote/auth/authSlices";
+import { onLogin, onLogout, onChecking, clearErrorMessage} from "../stote/auth/authSlices";
 import Swal from 'sweetalert2';
 
 
@@ -51,14 +51,14 @@ export const useAuthStore = () => {
     const checkAuthToken = async () => {
       const token = localStorage.getItem('token');
     
-      if (!token) {
+      if (!token) {///si no hay token lo envia al inicio de sesion 
         dispatch(onLogout());
         return;
       }
     
       try {
         const { data } = await evaApi.get('/login/renew', {
-          headers: { 'x-token': token },
+          headers: { 'x-token': token }, ///se resibe token del headers 
         });
     
         localStorage.setItem('token', data.token);

@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Modal from'react-modal';
 import {Typography, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { useUiStoreAsp } from '../../../../../hooks/useUiStore';
+import { useAspectoStore } from '../../../../../hooks';
+import { activarEvent } from '../../../../../stote';
 
 const customStyles = {
     content: {
@@ -25,23 +28,39 @@ const customStyles = {
 
 export const AspectoModal = () => {
 
-   const [isOpen, setIsOpen] = useState(true)
+  const { isDateModalOpen, closeDateModal } = useUiStoreAsp();
+
+   //const [isOpen, setIsOpen] = useState(true)
    ///estado adicional para validar campo, por defecto no se ha realizado el submit del formulario
    const [formSubmitted, setformSubmitted] = useState(false);
+   const{events, setActivarEvent, activeEvent, startAspecto}=useAspectoStore();
 
-   ////constante para manejar erro, usuando useMemo
-  //  const nombreClass=useMemo(() => {
-  //   //Si el  formSubmit no se efectua entoses se envia un return y se muestra el error
-  //   if(!formSubmitted)return;
-  //   return(formValues.nombre.length>0)
-  //   ?'is-valid'
+   const [formValues, setformValues] = useState({
+    nombre: '',
+    descripcion: '',
 
-  //  }, [formValues.nombre, formSubmitted])//dos dependencias si el titulo cambia se memoriza o si el formSubmit cambia
+  })
+
+
+  
+
+   
+
+   useEffect(() => {
+    if (activeEvent!==null) {
+      setformValues({...activeEvent})
+    }
+
+  }, [activeEvent])
+
+////////
+
 
    ///para cerrar modal 
    const onCloseModal=()=>{
+    closeDateModal();
     console.log('cerrar modal');
-    setIsOpen(false)
+    setformSubmitted(false);
 
    };
    ////para que se actualice y deje escribir en los campos de textos se crea 
@@ -51,25 +70,28 @@ export const AspectoModal = () => {
         [target.name]:target.value}) //se actualiza le valor 
    }
 
-  const [formValues, setformValues] = useState({
-    nombre:'PEI20',
-    descripcion:'Gestión humana'
 
-  })
 
   /////el posteo del formulario que se envien los datos 
-  const onSubmit=(event)=>{
+  const onSubmit = async (event) => {
     event.preventDefault();
-    setformSubmitted(true);//el formulario intenta hacer el posteo 
-    if(formValues.nombre.length<=0)return;
-    console.log(formValues);
+    setformSubmitted(true);
 
-  }
+    if (formValues.nombre.trim().length <= 0) return;
+
+    console.log("Formulario enviado:", formValues);
+
+    await startAspecto(formValues)
+
+    // Cerrar el modal después de enviar el formulario
+    closeDateModal();
+    setformSubmitted(false);
+  };
 
   return (
     <Modal
-        isOpen={isOpen}
-        onRequestClose={onCloseModal}
+    isOpen={isDateModalOpen} // Estado de apertura del modal
+    onRequestClose={onCloseModal}// Cierra el modal al hacer clic fuera
         style={customStyles}
        // className="modal"
         overlayClassName="modal-fondo"
@@ -80,14 +102,21 @@ export const AspectoModal = () => {
                 </Typography>
                 <form onSubmit={onSubmit}>
                     <TextField
+                      
                         label="Nombre"
                         variant="outlined"
                         fullWidth
                         margin="normal"
                         name="nombre"
-                        value={formValues.nombre}
+                        value={formValues.nombre }
                         onChange={onInputChange}
-                        className={`form-control, ${nombreClass}` }
+                        error={formSubmitted && formValues.nombre.trim().length === 0}
+                        helperText={
+                          formSubmitted && formValues.nombre.trim().length === 0
+                            ? 'El nombre es obligatorio'
+                            : ''
+                        }
+                       
                     />
                     <TextField
                         label="Descripción"
@@ -98,7 +127,7 @@ export const AspectoModal = () => {
                         value={formValues.descripcion}
                         onChange={onInputChange}
                     />
-                    <Button  variant="contained" color="primary" fullWidth>
+                    <Button  variant="contained" color="primary" fullWidth type="submit">
                         Enviar
                     </Button>
                 </form>

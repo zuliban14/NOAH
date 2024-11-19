@@ -48,6 +48,5 @@ router.post(
 
 // Ruta para renovar el token
 router.get('/renew', validarJWT, revalidarToken);
-router.get('/renovar',validarJWT, renewToken);
 
 module.exports = router;

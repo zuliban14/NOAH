@@ -24,7 +24,7 @@ export const EvaluacionDocentePage = () => {
     {/* <ModalAsp/> */}
     <AspectosView/>
 
-    <IconButton
+    {/* <IconButton
     size='large'
     sx={{
       color:'white',
@@ -36,7 +36,7 @@ export const EvaluacionDocentePage = () => {
     }}
     >
     <AddOutlined sx={{fontSize:30}}/>
-    </IconButton>
+    </IconButton> */}
     </VistaEvaLayout> 
     
    

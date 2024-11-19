@@ -1,23 +1,38 @@
 import { Grid, TextField, Typography, Button, Grid2 } from "@mui/material"
 
-import { AspectoModal } from "../components"
+
 import { useUiStoreAsp } from "../../../../../hooks/useUiStore";
+import { AspectoModal, BotonAddNew, BotonDelete } from "../components";
+import { useAspectoStore } from "../../../../../hooks";
+import { useEffect } from "react";
 
 
 export const AspectosView = () => {
-   const { isDateModalOpen, openDateModal, closeDateModal } = useUiStoreAsp;
+   const{listaAspectos}=useAspectoStore();
+
+   useEffect(() => {
+     listaAspectos()
+   
+   }, [])
+   
 
   return (
 
         <Grid container direction='row' justifyContent='space-between' sx={{mb:1}}>
             <Grid>
                 <Typography>aspectos para evaluar </Typography>
+
+
             </Grid>
             <Grid>
-            <Button variant="contained" color="primary"  >
-                Abrir Modal
-            </Button>
-            {/* <AspectoModal open={isModalOpen} onClose={handleCloseModal} /> */}
+            <BotonAddNew/>
+             {/* Modal conectado */}
+            <AspectoModal/> 
+           
+            </Grid>
+            <Grid>
+              <BotonDelete/>
+              <AspectoModal/> 
             </Grid>
             
           
