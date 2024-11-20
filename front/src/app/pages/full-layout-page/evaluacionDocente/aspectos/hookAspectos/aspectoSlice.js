@@ -36,10 +36,12 @@ reducers: {
     },
 
     onListarAspecto:(state,{payload=[]})=>{
-        state.cargandoEventos=false;
-       // state.events=payload;
-       payload.array.forEach(event => {
+        state.cargandoEventos=true;
+    
+       
+       payload.forEach(event => {
         const existe=state.events.some(dbEvent=>dbEvent.id===event.id)
+      
         if(!existe){
             state.events.push(event)
 

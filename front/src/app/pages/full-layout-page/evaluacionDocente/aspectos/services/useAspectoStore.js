@@ -1,8 +1,8 @@
 ///el encargado de hacer la interacion 
 
 import { useDispatch, useSelector } from "react-redux"
-import { activarEvent, actualizarAspecto, addEvenAspecto, deleteAspecto } from "../../../../../stote";
-import noahApi from "../../api/noahApi";
+import { activarEvent, actualizarAspecto, addEvenAspecto, deleteAspecto, onListarAspecto } from "../";
+import noahApi from "../../../api/noahApi";
 
 export const useAspectoStore = () => {
     const dispatch=useDispatch();
@@ -35,8 +35,9 @@ export const useAspectoStore = () => {
   }
   const listaAspectos=async()=>{
     try {
-      const{data}=await noahApi.get('/evaDocente/listAspecto', aspectoEvent);
-      console.log({data})
+      const{data}=await noahApi.get('/evaDocente/listAspecto');
+      console.log('llego aspecto',{data});
+      dispatch(onListarAspecto());
     } catch (error) {
       console.log('error cargando aspectos ', error)
     }
