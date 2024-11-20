@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { authSlice } from './auth/authSlices'
-import { aspectoSlice } from './aspectos/aspectoSlice'
+import { aspectoSlice } from '../app/pages/full-layout-page/evaluacionDocente/aspectos'
 import { uiSlice } from '../shared/ui/uiSlice'
 
 

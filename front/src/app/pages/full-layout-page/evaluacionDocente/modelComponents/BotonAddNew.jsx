@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { useUiStoreAsp } from "../../../../../hooks"
-import { useAspectoStore } from "../../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore";
+import { useAspectoStore } from "../../../../../app/pages/full-layout-page/evaluacionDocente/aspectos/services/useAspectoStore";
 import { Grid,  Button } from "@mui/material"
 import { AddOutlined } from "@mui/icons-material";
 

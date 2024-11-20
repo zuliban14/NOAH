@@ -4,8 +4,8 @@ import Modal from'react-modal';
 import {Typography, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { useUiStoreAsp } from '../../../../hooks';
-import { useAspectoStore } from '../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore';
+import { useUiStoreAsp } from '../../../../../hooks';
+import { useAspectoStore } from '../aspectos/index';
 
 
 

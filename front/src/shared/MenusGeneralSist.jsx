@@ -5,8 +5,7 @@ import { AddOutlined } from '@mui/icons-material';
 
 import { MenuLayout } from '../shared/layout/MenuLayout';
 
-import { AspectosView } from '../app/pages/full-layout-page/evaluacionDocente';
-import { PruebaEd } from '../app/pages/full-layout-page/evaluacionDocente/PruebaEd';
+import { AspectosView } from '../app/pages/full-layout-page/evaluacionDocente/aspectos';
 
 
 
@@ -20,8 +19,8 @@ export const MenusGeneralSist = () => {
     
 
     {/* <ModalAsp/> */}
-    {/* <AspectosView/> */}
-    <PruebaEd/>
+    <AspectosView/>
+    {/* <PruebaEd/> */}
 
     {/* <IconButton
     size='large'

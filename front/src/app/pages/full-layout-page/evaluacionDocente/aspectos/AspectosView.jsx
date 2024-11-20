@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material"
-import { BotonAddNew, BotonDelete } from "../../full-layout-page/evaluacionDocente/modelComponents";
-import { useAspectoStore } from "../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore";
+import { BotonAddNew, BotonDelete } from "../modelComponents";
+import { FormAspectoModal, useAspectoStore } from "../aspectos";
 import { useEffect } from "react";
 //import {FormAspectoModal} from "./";
 
@@ -12,6 +12,9 @@ export const AspectosView = () => {
      listaAspectos()
    
    }, [])
+
+   const{data} =listaAspectos();
+   console.log('data ',data);
    
 
   return (
@@ -21,7 +24,7 @@ export const AspectosView = () => {
             <Grid>
                 <Typography>aspectos para evaluar </Typography>
 
-
+               
             </Grid>
             <Grid>
             <BotonAddNew/>
@@ -33,6 +36,7 @@ export const AspectosView = () => {
               <BotonDelete/>
               <FormAspectoModal/> 
             </Grid>
+            
             
           
     
