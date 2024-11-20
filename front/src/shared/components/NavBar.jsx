@@ -1,7 +1,7 @@
 import { LogoutOutlined, MenuOutlined } from '@mui/icons-material'
 import { AppBar, IconButton, Toolbar, Typography, Grid } from '@mui/material'
 import React from 'react'
-import { useAuthStore } from '../../../../../hooks'
+import { useAuthStore } from '../../hooks'
 
 export const NavBar = ({drawerWidth}) => {//llega el espacio del menuLateral
   const{startLogout, user}=useAuthStore();
@@ -22,7 +22,7 @@ export const NavBar = ({drawerWidth}) => {//llega el espacio del menuLateral
             >
               <MenuOutlined/>
             </IconButton>
-            <Grid container derection='row' justifyContent='space-between' alagnItems='center'>
+            <Grid container derection='row' justifyContent='space-between' alignItems='center'>
               <Typography variant='h6' noWrap component='div'>Noa</Typography>
               <IconButton  color="customColor1"
               onClick={startLogout}>

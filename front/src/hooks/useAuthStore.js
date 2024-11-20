@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import evaApi from "../app/pages/full-layout-page/api/evaApi";
+import noahApi from "../app/pages/full-layout-page/api/noahApi";
 import { onLogin, onLogout, onChecking, clearErrorMessage} from "../stote/auth/authSlices";
 import Swal from 'sweetalert2';
 
@@ -13,7 +13,7 @@ export const useAuthStore = () => {
        // console.log({nombre_usuario, clave_acceso})
       // dispatch(onChecking());
       try {
-        const { data } = await evaApi.post('/login/onlogin', { nombre_usuario, clave_acceso });
+        const { data } = await noahApi.post('/login/onlogin', { nombre_usuario, clave_acceso });
   
         if (!data.id || !data.name) { // Verifica las propiedades correctas
           console.log('El usuario no existe', data);
@@ -57,7 +57,7 @@ export const useAuthStore = () => {
       }
     
       try {
-        const { data } = await evaApi.get('/login/renew', {
+        const { data } = await noahApi.get('/login/renew', {
           headers: { 'x-token': token }, ///se resibe token del headers 
         });
     

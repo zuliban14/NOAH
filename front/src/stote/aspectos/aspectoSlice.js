@@ -1,27 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-///constante temporal 
 
-
- export const aspectoSlice = createSlice({
-
-
- name: 'aspecto',
- initialState: {
-    cargandoEventos:true,
-    events:[],
-    activenEvent:null,
-},
+export const aspectoSlice = createSlice({
+        name: 'aspecto',
+        initialState: {
+            cargandoEventos:true,
+            events:[],
+            activenEvent:null,
+        },
 reducers: {
     activarEvent: (state, {payload} ) => {
         state.activenEvent=payload;
-
     },
 
     addEvenAspecto:(state,{payload})=>{
        state.events.push(payload);
        state.activenEvent=null;//para limpiar 
-
     },
 
     actualizarAspecto:(state,{payload})=>{
