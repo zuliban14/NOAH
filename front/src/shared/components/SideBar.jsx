@@ -8,49 +8,48 @@ export const SideBar = ({drawerWidth=240}) => {
     const{ user }=useAuthStore();//se llama al usuario t se muestra  
     //const{data}=menuservice();
    // const [data, setData] = useState([])
+   const menuItems = [
+    { id: 1, text: 'matricula', description: 'hkfdjkhfhskhfgkjk' },
+    // Agrega más elementos aquí
+  ];
   return (
-    <Box
+    <Box 
+
     component='nav'
-    sx={{width:{sm:drawerWidth}, flexShrink:{sm:0}}}
+    sx={{width: {sm: drawerWidth}, flexShrink:{sm:0 }}}
     >
         <Drawer
-        variant='permanent'
-        open
-        sx={{
-            display:{xs:'block'},
-            '&.MuiDrawer-paper':{boxSizing:'border-box', width:drawerWidth}
+         variant="permanent"
+         open
+         sx={{display: {sx: 'block'},
+          '& .MuiDrrawer-paper':{ boxSizing: 'border-box', whidth: drawerWidth}
         }}
         >
-            <Toolbar>
-                <Typography variant='h6' noWrap component='div'>
-                    {user.nombre}
-                </Typography>
-            </Toolbar>
-            <Divider/>
-
-            <List>
-                {
-                    
-                    ['matricula'].map(text =>(
-                        <ListItem>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <TurnedInNot/>
-                                </ListItemIcon>
-                                <Grid container >
-                                    <ListItemText primary={text}/>
-                                    <ListItemText primary={'hkfdjkhfhskhfgkjk'}/>
-
-                                </Grid>
-                            </ListItemButton>
-                        </ListItem>
-
-                    ))
-                }
-            </List>
-         
         </Drawer>
+        <Toolbar>
+          <Typography variant="h6" noWrap component='div'>
+            {user.nombre}
+          </Typography>
+          <Divider/>
+        </Toolbar>
+        <List>
+          {
+          [ 'Enero','Marzo','Abril','Mayo','Junio','Lulio'].map (text =>(
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                <TurnedInNot/>
+                </ListItemIcon>
+              <Grid container>
+                 <ListItemText primary={text}/>
+                 <ListItemText secondary={'Anim mollit in ullamco culpa qui do aliqua.'}/>
+              </Grid>
+              </ListItemButton>
+            </ListItem>
+          ))
+          }
 
+        </List>
     </Box>
     
   )
