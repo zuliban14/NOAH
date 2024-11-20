@@ -1,8 +1,8 @@
 ///el encargado de hacer la interacion 
 
 import { useDispatch, useSelector } from "react-redux"
-import { activarEvent, actualizarAspecto, addEvenAspecto, deleteAspecto } from "../stote";
-import evaApi from "../app/pages/full-layout-page/api/evaApi";
+import { activarEvent, actualizarAspecto, addEvenAspecto, deleteAspecto } from "../../../../../stote";
+import noahApi from "../../api/noahApi";
 
 export const useAspectoStore = () => {
     const dispatch=useDispatch();
@@ -22,7 +22,7 @@ export const useAspectoStore = () => {
     }else{
       ///creando
      
-      const{data}=await evaApi.post('/evaDocente/createAspecto', aspectoEvent);
+      const{data}=await noahApi.post('/evaDocente/createAspecto', aspectoEvent);
       console.log({data});
       dispatch(addEvenAspecto({...aspectoEvent, id: data.aspecto.id}))
   
@@ -35,7 +35,7 @@ export const useAspectoStore = () => {
   }
   const listaAspectos=async()=>{
     try {
-      const{data}=await evaApi.get('/evaDocente/listAspecto', aspectoEvent);
+      const{data}=await noahApi.get('/evaDocente/listAspecto', aspectoEvent);
       console.log({data})
     } catch (error) {
       console.log('error cargando aspectos ', error)

@@ -4,9 +4,10 @@ import Modal from'react-modal';
 import {Typography, TextField, Button} from '@mui/material';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { useUiStoreAsp } from '../../../../../hooks/useUiStore';
-import { useAspectoStore } from '../../../../../hooks';
-import { activarEvent } from '../../../../../stote';
+import { useUiStoreAsp } from '../../../../hooks';
+import { useAspectoStore } from '../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore';
+
+
 
 const customStyles = {
     content: {
@@ -26,7 +27,7 @@ const customStyles = {
   
 
 
-export const AspectoModal = () => {
+export const FormAspectoModal = () => {
 
   const { isDateModalOpen, closeDateModal } = useUiStoreAsp();
 

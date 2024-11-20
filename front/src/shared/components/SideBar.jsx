@@ -1,9 +1,13 @@
 
 import { TurnedInNot } from '@mui/icons-material'
 import{Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Grid} from '@mui/material'
-import { useAuthStore } from '../../../../../hooks';
+import { useAuthStore } from '../../hooks';
+//import { menuservice } from './menu.service';
+//import { useState } from 'react';
 export const SideBar = ({drawerWidth=240}) => {
-    const{ user}=useAuthStore();//se llama al usuario t se muestra  
+    const{ user }=useAuthStore();//se llama al usuario t se muestra  
+    //const{data}=menuservice();
+   // const [data, setData] = useState([])
   return (
     <Box
     component='nav'
@@ -26,7 +30,8 @@ export const SideBar = ({drawerWidth=240}) => {
 
             <List>
                 {
-                    ['MATRICULA','GESTION DE NOTAS','EVALUACION DOCE'].map(text =>(
+                    
+                    ['matricula'].map(text =>(
                         <ListItem>
                             <ListItemButton>
                                 <ListItemIcon>

@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux"
-import { useUiStoreAsp } from "../../../../../hooks/useUiStore"
-import { useAspectoStore } from "../../../../../hooks";
+import { useUiStoreAsp } from "../../../../../hooks"
+import { useAspectoStore } from "../../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore";
 import { Grid,  Button } from "@mui/material"
-import { AspectoModal } from "./AspectoModal";
 import { AddOutlined } from "@mui/icons-material";
 
 export const BotonAddNew = () => {

@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux"
-import { useUiStoreAsp } from "../../../../../hooks/useUiStore"
-import { useAspectoStore } from "../../../../../hooks";
+//import { useUiStoreAsp } from "../../hooks"
+import { useAspectoStore } from "../../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore";
 import { Grid,  Button } from "@mui/material"
-import { AspectoModal } from "./AspectoModal";
+
 
 import { DeleteOutlined } from "@mui/icons-material";
-import { deleteAspecto } from "../../../../../stote";
+//import { deleteAspecto } from "../../stote";
 
 export const BotonDelete = () => {
   const {deleteEventoAspecto}=useAspectoStore();

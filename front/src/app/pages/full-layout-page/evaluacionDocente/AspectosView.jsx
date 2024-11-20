@@ -1,10 +1,8 @@
-import { Grid, TextField, Typography, Button, Grid2 } from "@mui/material"
-
-
-import { useUiStoreAsp } from "../../../../../hooks/useUiStore";
-import { AspectoModal, BotonAddNew, BotonDelete } from "../components";
-import { useAspectoStore } from "../../../../../hooks";
+import { Grid, Typography } from "@mui/material"
+import { BotonAddNew, BotonDelete } from "../../full-layout-page/evaluacionDocente/modelComponents";
+import { useAspectoStore } from "../../../../app/pages/full-layout-page/evaluacionDocente/services/useAspectoStore";
 import { useEffect } from "react";
+//import {FormAspectoModal} from "./";
 
 
 export const AspectosView = () => {
@@ -18,7 +16,8 @@ export const AspectosView = () => {
 
   return (
 
-        <Grid container direction='row' justifyContent='space-between' sx={{mb:1}}>
+  
+ <Grid container direction='row' justifyContent='space-between' sx={{mb:1}}>
             <Grid>
                 <Typography>aspectos para evaluar </Typography>
 
@@ -27,12 +26,12 @@ export const AspectosView = () => {
             <Grid>
             <BotonAddNew/>
              {/* Modal conectado */}
-            <AspectoModal/> 
+            <FormAspectoModal/> 
            
             </Grid>
             <Grid>
               <BotonDelete/>
-              <AspectoModal/> 
+              <FormAspectoModal/> 
             </Grid>
             
           
@@ -40,5 +39,7 @@ export const AspectosView = () => {
             
 
         </Grid>
+   
+       
       );
     };

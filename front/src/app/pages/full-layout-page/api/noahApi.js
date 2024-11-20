@@ -3,7 +3,7 @@ import { getEvaVariables } from '../../../../helpers';
 
 const{VITE_API_URL}=getEvaVariables()
 
-const evaApi= axios.create( {
+const noahApi= axios.create( {
    baseURL:VITE_API_URL,
    headers: {
       'Content-Type': 'application/json', // Agregar el encabezado Content-Type
@@ -11,7 +11,7 @@ const evaApi= axios.create( {
     },
 });
 ////configuracion para el token que  se encuentra en los headers
-evaApi.interceptors.request.use(config=>{
+noahApi.interceptors.request.use(config=>{
    config.headers={
       ...config.headers,
       'x-token':localStorage.getItem('token')
@@ -19,4 +19,4 @@ evaApi.interceptors.request.use(config=>{
    return config
 })
 
-export default evaApi;
+export default noahApi;

@@ -3,9 +3,10 @@ import { AppTheme } from './theme'
 import {Navigate,Routes, Route} from 'react-router-dom';
 import { useAuthStore } from './hooks';
 import { LoginPage } from './auth/pages';
-import { EvaluacionDocentePage } from './app/pages/full-layout-page/evaluacion-docente/pages/EvaluacionDocentePage';
 import { useEffect } from 'react';
 
+//import { MenusGeneralSist } from './app/pages/full-layout-page/shared/MenusGeneralSist';
+import { MenusGeneralSist } from './shared/MenusGeneralSist';
 export const RuahApp = () => {
 //const authStatus='not-authenticated';
 
@@ -32,7 +33,7 @@ const {checkAuthToken, startLogin, status}= useAuthStore();
           ) : (
             // Rutas privadas
             <>
-              <Route path="/" element={<EvaluacionDocentePage />} />
+              <Route path="/" element={<MenusGeneralSist />} />
               <Route path="*" element={<Navigate to="/" />} />
             </>
           )
