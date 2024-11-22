@@ -23,7 +23,7 @@ export const NavBar = ({drawerWidth}) => {//llega el espacio del menuLateral
               <MenuOutlined/>
             </IconButton>
             <Grid container derection='row' justifyContent='space-between' alignItems='center'>
-              <Typography variant='h6' noWrap component='div'>Noa</Typography>
+              <Typography variant='h6' noWrap component='div'>NOAH</Typography>
               <IconButton  color="customColor1"
               onClick={startLogout}>
                 <LogoutOutlined />

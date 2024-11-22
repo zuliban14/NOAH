@@ -91,7 +91,7 @@ const eliminarPreguntas = async(req, res  )=>{
         const result= await Pregunta.eliminarPregunta(params);
         return res.status(200).json({msg:'se elimino las preguntas',data:result})
     } catch (error) {
-        res.statu(500).json({ok:false,msg:'no eliminarpreguntas'})
+        res.status(500).json({ok:false,msg:'no eliminarpreguntas'})
     }
 
    

@@ -7,7 +7,7 @@ const getAspectos=async(req, res= response)=>{
     try {
         const params=(req.body)
         const aspecto= await Aspecto.lisAapectos(params)
-        return res.json({ok:true,msg:'listado', dato:aspecto });
+        return res.json({ok:true,msg:'listado', data:aspecto });
         
     } catch (error) {
        return res.status(500).json({msg:'no se pudo listar'}) 
@@ -63,8 +63,14 @@ const actualizarAspectos = async (req, res) => {
 
 const eliminarAspectos= async(req, res= response)=>{
    try {
-    const params=(req.body);
-    const aspectoid=params.id;
+    //const params=(req.body);
+    //const aspectoid=params.id;
+    console.log("Parámetros recibidos:", req.params);
+    const aspectoid = parseInt(req.params.id, 10);  // Convertir el ID a número
+    if (isNaN(aspectoid) || aspectoid <= 0) {
+      // Si no es un número válido, lanzamos un error
+      return res.status(400).json({ mensaje: 'El ID debe ser un número válido' });
+    }
     
     const aspectoExiste=await Aspecto.buscarAspecto(aspectoid);
 
@@ -78,7 +84,7 @@ const eliminarAspectos= async(req, res= response)=>{
         
     }
 
-    const resultado = await Aspecto.eliminarAspecto(params);
+    const resultado = await Aspecto.eliminarAspecto(aspectoid);
     return res.status(200).json({ mensaje: 'Aspecto eliminado', data: resultado });
 
    } catch (error) {

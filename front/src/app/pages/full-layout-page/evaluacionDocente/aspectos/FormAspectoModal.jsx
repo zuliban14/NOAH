@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import Modal from'react-modal';
-import {Typography, TextField, Button} from '@mui/material';
+import {Typography, TextField, Button, Box} from '@mui/material';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import { useUiStoreAsp } from '../../../../../hooks';
 import { useAspectoStore } from '../aspectos/index';
+import { SaveOutlined } from '@mui/icons-material';
 
 
 
@@ -128,9 +129,13 @@ export const FormAspectoModal = () => {
                         value={formValues.descripcion}
                         onChange={onInputChange}
                     />
-                    <Button  variant="contained" color="primary" fullWidth type="submit">
-                        Enviar
+                
+                    <Button  variant="contained" color="primary" type="submit" fullWidth  >
+                       <SaveOutlined sx={{fontSize:30, mr:1}}/>
                     </Button>
+
+
+                    
                 </form>
 
     </Modal>

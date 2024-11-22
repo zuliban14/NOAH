@@ -9,9 +9,18 @@ export const aspectoSlice = createSlice({
             activenEvent:null,
         },
 reducers: {
+ 
     activarEvent: (state, {payload} ) => {
         state.activenEvent=payload;
     },
+    deleteAspecto: (state, { payload }) => {
+        state.events = state.events.filter((event) => event.id !== payload);
+  
+        // Limpia el evento activo si fue eliminado
+        if (state.activenEvent?.id === payload) {
+          state.activenEvent = null;
+        }
+      },
 
     addEvenAspecto:(state,{payload})=>{
        state.events.push(payload);
@@ -30,27 +39,43 @@ reducers: {
        })
     },
 
-    deleteAspecto: (state) => {
-        state.events = state.events.filter(event => event.id !== state.activenEvent.id);
-        state.activenEvent = null;
+    // deleteAspecto: (state) => {
+    //     state.events = state.events.filter(event => event.id !== state.activenEvent.id);
+    //     state.activenEvent = null;
+    // },
+ 
+
+    onListarAspecto: (state, { payload = [] }) => {
+        //console.log("Payload en reducer:", payload); 
+        state.cargandoEventos = false;
+      
+        payload.forEach((event) => {
+          const existe = state.events.some((dbaspecto) => dbaspecto.id === event.id);
+          if (!existe) {
+            state.events.push(event);
+          }
+        });
+      
+       // console.log("Estado actualizado en events:", state.events);
+    },
+    onLimpiaraspecto:(state)=>{
+        state.cargandoEventos=true,
+        state.events=[],
+        state.activarEvent=null
+
     },
 
-    onListarAspecto:(state,{payload=[]})=>{
-        state.cargandoEventos=true;
-    
-       
-       payload.forEach(event => {
-        const existe=state.events.some(dbEvent=>dbEvent.id===event.id)
-      
-        if(!existe){
-            state.events.push(event)
-
-        }
-       });
-
-    }
+  
+  
 
 
 }
 });
-export const { activarEvent, addEvenAspecto, actualizarAspecto, deleteAspecto, onListarAspecto } = aspectoSlice.actions;
+export const { 
+    activarEvent,
+    addEvenAspecto, 
+    actualizarAspecto,
+    deleteAspecto, 
+    onListarAspecto,
+    onLimpiaraspecto
+} = aspectoSlice.actions;
