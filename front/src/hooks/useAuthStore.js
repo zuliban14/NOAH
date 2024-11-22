@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import noahApi from "../app/pages/full-layout-page/api/noahApi";
 import { onLogin, onLogout, onChecking, clearErrorMessage} from "../stote/auth/authSlices";
 import Swal from 'sweetalert2';
+import { onLimpiaraspecto } from "../app/pages/full-layout-page/evaluacionDocente/aspectos";
 
 
 
@@ -76,6 +77,7 @@ export const useAuthStore = () => {
 
     const startLogout=()=>{
       localStorage.clear();
+      dispatch(onLimpiaraspecto());
       dispatch(onLogout());
 
     }

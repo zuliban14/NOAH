@@ -2,9 +2,9 @@ const pool = require('../../../../../database/connexion');
 
 async function crearPregunta(params) {
     try {
-        const{titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, orden, estado}=params;
-        const query='insert into eva.preguntas(titulo, subtitulo, imagen, valor,  id_aspectos, id_tipo_pregunta, orden, estado) values ($1, $2, $3, $4, $5, $6, $7, $8)';
-        const resultado= await pool.query(query, [titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, orden, estado]);
+        const{titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado}=params;
+        const query='insert into eva.preguntas(titulo, subtitulo, imagen, valor,  id_aspectos, id_tipo_pregunta,  estado) values ($1, $2, $3, $4, $5, $6, $7)';
+        const resultado= await pool.query(query, [titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado]);
         console.log('respuesta', resultado.rows);
         return resultado.rows;
         
@@ -16,7 +16,7 @@ async function crearPregunta(params) {
 
 async function buscartipopregunta(params) {
     try {
-        const query=`select * from eva.tipo_preguntas where id=$1`;
+        const query=`select * from eva.opciones_respuestas where id=$1`;
         const resultado= await pool.query(query,[params]);
         return resultado.rows.length > 0;
         
@@ -54,9 +54,9 @@ async function listapregunta(params) {
 
 async function actualizarPregunta(params) {
     try {
-        const{id, titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, orden, estado}=params;
-        const query='UPDATE eva.preguntas set titulo=$2, subtitulo=$3, imagen=$4, valor=$5,  id_aspectos=$6, id_tipo_pregunta=$7, orden=$8, estado=$9 where id=$1 RETURNING *'
-        const result=await pool.query(query,[id,titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, orden, estado])
+        const{id, titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, estado}=params;
+        const query=`UPDATE eva.preguntas set titulo=$2, subtitulo=$3, imagen=$4, valor=$5,  id_aspectos=$6, id_tipo_pregunta=$7, estado=$8 where id=$1 RETURNING *`
+        const result=await pool.query(query,[id,titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado])
         console.log('respuesta', result.rows);
         return result.rows;
     } catch (error) {

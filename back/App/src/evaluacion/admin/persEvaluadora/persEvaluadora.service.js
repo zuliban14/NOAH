@@ -16,7 +16,9 @@ async function listarPersonasEvaluadoras(params) {
 async function buscarpersonaEvaluadora(params) {
     try {
         const id=params.id;
-        const query='select p.id, e.id as idestudiante, e.codigo, "_getpersonname"(p.numero_identificacion) as nombres, evaper.id from personas p INNER JOIN estudiantes e on e.id_persona=p.id INNER JOIN eva.personas_evaluadoras evaper on evaper.id_persona= e.id_persona where evaper.id=$1';
+        const query=`select p.id, e.id as idestudiante, e.codigo, "_getpersonname"(p.numero_identificacion) as nombres,
+         evaper.id from personas p INNER JOIN estudiantes e on e.id_persona=p.id INNER JOIN eva.personas_evaluadoras evaper on evaper.id_persona= e.id_persona
+          where evaper.id=$1`;
         const result= await pool.query(query, [id]);
         console.log('respuesta', result.rows);
         

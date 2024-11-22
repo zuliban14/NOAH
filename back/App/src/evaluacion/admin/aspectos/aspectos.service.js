@@ -76,9 +76,9 @@ async function actualizarAspectos(params) {
   }
 }
 
-async function eliminarAspecto(params) {
+async function eliminarAspecto(aspectoid) {
   try {
-    const id=params.id;
+    const id=aspectoid;
     const query=`DELETE FROM eva.aspectos WHERE id = $1`;
     const resultado=await pool.query(query,[id])
 
