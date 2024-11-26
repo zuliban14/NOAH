@@ -10,5 +10,6 @@ export const store = configureStore({
     auth:authSlice.reducer,
     ui:uiSlice.reducer,
     aspecto:aspectoSlice.reducer,
+    
   },
 })

@@ -4,7 +4,7 @@ const {check}=require('express-validator');
 const { validarCampos } = require('../../../middlewares/validarcampos');
 
 const {validarJWT}= require('../../../middlewares/validarjwt');
-const {getPreguntas,crearPreguntas,actualizarPreguntas,eliminarPreguntas, buscarpreguntaPorAaspecto}=require('../../src/evaluacion/admin/preguntas/preguntasController');
+const {getPreguntas,crearPreguntas,actualizarPreguntas,eliminarPreguntas, buscarpreguntaPorAaspecto, getTipoPreguntas}=require('../../src/evaluacion/admin/preguntas/preguntasController');
 const { getRespuestas, crearRespuestas, actualizarRespuestas, eliminarRespuestas } = require('../../src/evaluacion/admin/respuestas/respuestasController');
 const {crearEncuesta,getEncuesta,actualizarEncuesta,eliminarEncuesta}=require('../../src/evaluacion/admin/encuestas/encuestaController');
 const {getpersEvaluadora, buscarpersonaEvaluadora}= require('../../src/evaluacion/admin/persEvaluadora/persEvaluadoraController');
@@ -36,9 +36,8 @@ router.delete('/deleteAspecto/:id', eliminarAspectos);
 ///////////////////rutas PREGUNTAS//////////////////////////////////////////
 
 router.get('/listPregunta', getPreguntas);
-router.get('/buscarPorAspecto/:id',
-    [check('id_aspectos', 'debe ingresar el aspecto').not().isEmpty(),validarCampos],
-     buscarpreguntaPorAaspecto);
+router.get('/listTipoPregunta', getTipoPreguntas);
+router.get('/buscarPorAspecto/:id', buscarpreguntaPorAaspecto);
 router.post('/createPregunta',
     [
         check('titulo', 'El titulo es obligatorio').not().isEmpty(),
@@ -47,8 +46,6 @@ router.post('/createPregunta',
         check('valor', 'Debe de ingresar el valor').not().isEmpty(),
         check('id_aspectos', 'Debe seleccionar el aspecto a evaluar').not().isEmpty(),
         check('id_tipo_pregunta', 'Debe selecionar el tipo de pregunta').not().isEmpty(),
-        check('orden', 'que orden tiene su pregunta').not().isEmpty(),
-        check('estado', 'que estado se encuntra').not().isEmpty(),
         validarCampos
     ],
      crearPreguntas);

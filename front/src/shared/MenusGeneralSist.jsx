@@ -1,11 +1,14 @@
 import { Typography } from '@mui/material';
-import { IconButton } from '@mui/material';
+
 
 import { AddOutlined } from '@mui/icons-material';
 
 import { MenuLayout } from '../shared/layout/MenuLayout';
 
 import { AspectosView } from '../app/pages/full-layout-page/evaluacionDocente/aspectos';
+import { PreguntaView } from '../app/pages/full-layout-page/evaluacionDocente/preguntas';
+
+
 
 
 
@@ -20,6 +23,8 @@ export const MenusGeneralSist = () => {
 
     {/* <ModalAsp/> */}
     <AspectosView/>
+    {/* <PreguntaView/> */}
+
     {/* <PruebaEd/> */}
 
     {/* <IconButton

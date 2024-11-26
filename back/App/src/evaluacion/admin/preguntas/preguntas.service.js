@@ -2,9 +2,9 @@ const pool = require('../../../../../database/connexion');
 
 async function crearPregunta(params) {
     try {
-        const{titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado}=params;
-        const query='insert into eva.preguntas(titulo, subtitulo, imagen, valor,  id_aspectos, id_tipo_pregunta,  estado) values ($1, $2, $3, $4, $5, $6, $7)';
-        const resultado= await pool.query(query, [titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado]);
+        const{titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta}=params;
+        const query='insert into eva.preguntas(titulo, subtitulo, imagen, valor,  id_aspectos, id_tipo_pregunta,  estado) values ($1, $2, $3, $4, $5, $6, true)';
+        const resultado= await pool.query(query, [titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta]);
         console.log('respuesta', resultado.rows);
         return resultado.rows;
         
@@ -39,10 +39,33 @@ async function buscarpregunta(preguntaid) {
     }
     
 }
-
-async function listapregunta(params) {
+async function listaTipoPregnta() {
     try {
-        const query=`select * from eva.preguntas`;
+      
+        const query=`select * from eva.tipo_preguntas`;
+        const resultado = await pool.query(query);
+        return resultado.rows;
+        
+    } catch (error) {
+        console.log('error',error);
+        return false;
+    }
+    
+}
+
+
+
+async function listapregunta() {
+    try {
+        const query=`select pg.id,
+        pg.titulo as Titulo,
+        pg.subtitulo as Pregunta,
+        pg.valor,
+        ap.descripcion as Aspecto,
+        tp.nombre as TipoPregunta
+        from eva.preguntas pg
+        INNER JOIN eva.aspectos ap on pg.id_aspectos=ap.id
+        INNER JOIN eva.tipo_preguntas tp on pg.id_tipo_pregunta=tp.id`;
         const resultado = await pool.query(query);
         return resultado.rows;
         
@@ -54,9 +77,9 @@ async function listapregunta(params) {
 
 async function actualizarPregunta(params) {
     try {
-        const{id, titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta, estado}=params;
-        const query=`UPDATE eva.preguntas set titulo=$2, subtitulo=$3, imagen=$4, valor=$5,  id_aspectos=$6, id_tipo_pregunta=$7, estado=$8 where id=$1 RETURNING *`
-        const result=await pool.query(query,[id,titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta,  estado])
+        const{id, titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta}=params;
+        const query=`UPDATE eva.preguntas set titulo=$2, subtitulo=$3, imagen=$4, valor=$5,  id_aspectos=$6, id_tipo_pregunta=$7, true where id=$1 RETURNING *`
+        const result=await pool.query(query,[id,titulo, subtitulo, imagen, valor, id_aspectos, id_tipo_pregunta])
         console.log('respuesta', result.rows);
         return result.rows;
     } catch (error) {
@@ -100,5 +123,6 @@ module.exports={
     buscartipopregunta,
     listapregunta,
     buscarpregunta,
-    buscarPreguntaPorAspeto
+    buscarPreguntaPorAspeto,
+    listaTipoPregnta
 }

@@ -20,13 +20,10 @@ const customStyles = {
       transform: 'translate(-50%, -50%)',
     },
   };
-
-  
+ 
 ;
 
   Modal.setAppElement('#root');
-  
-
 
 export const FormAspectoModal = () => {
 
@@ -42,18 +39,21 @@ export const FormAspectoModal = () => {
     descripcion: '',
 
   })
-
-
-  
-
-   
-
-   useEffect(() => {
-    if (activeEvent!==null) {
-      setformValues({...activeEvent})
+  useEffect(() => {
+    console.log("activeEvent:", activeEvent); // Verifica si el evento activo tiene los datos correctos
+    if (activeEvent) {
+      setformValues({
+        id: activeEvent.id || '', // Incluye el ID en los valores del formulario
+        nombre: activeEvent.nombre || '',
+        descripcion: activeEvent.descripcion || '',
+      });
+    } else {
+      setformValues({
+        nombre: '',
+        descripcion: '',
+      });
     }
-
-  }, [activeEvent])
+  }, [activeEvent]);
 
 ////////
 
@@ -62,7 +62,12 @@ export const FormAspectoModal = () => {
    const onCloseModal=()=>{
     closeDateModal();
     console.log('cerrar modal');
-    setformSubmitted(false);
+    setformSubmitted({
+      id: '',
+      nombre: '',
+      descripcion: '',
+    });
+    setActivarEvent(null);// Limpia el evento activo
 
    };
    ////para que se actualice y deje escribir en los campos de textos se crea 
@@ -110,7 +115,7 @@ export const FormAspectoModal = () => {
                         fullWidth
                         margin="normal"
                         name="nombre"
-                        value={formValues.nombre }
+                        value={formValues.nombre || ''}
                         onChange={onInputChange}
                         error={formSubmitted && formValues.nombre.trim().length === 0}
                         helperText={
@@ -126,7 +131,7 @@ export const FormAspectoModal = () => {
                         fullWidth
                         margin="normal"
                         name="descripcion"
-                        value={formValues.descripcion}
+                        value={formValues.descripcion || ''}
                         onChange={onInputChange}
                     />
                 
