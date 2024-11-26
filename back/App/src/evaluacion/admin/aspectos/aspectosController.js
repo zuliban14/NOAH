@@ -50,16 +50,20 @@ const actualizarAspectos = async (req, res) => {
 
     try {
         const params=(req.body);
+        const aspectoid=(params.id);
+        
+        const aspectoExiste = await Aspecto.buscarAspecto(aspectoid);
+        if (!aspectoExiste) {
+          return res.status(404).json({ mensaje: 'Aspecto no encontrado' });
+        }
       const resultado = await Aspecto.actualizarAspectos(params);
-      if (!resultado) {
-        return res.status(404).json({ mensaje: 'Aspecto no encontrado' });
-      }
+      
       return res.json({ mensaje: 'Aspecto actualizado', data: resultado });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ mensaje: 'Error al actualizar el aspecto' });
     }
-  };
+};
 
 const eliminarAspectos= async(req, res= response)=>{
    try {

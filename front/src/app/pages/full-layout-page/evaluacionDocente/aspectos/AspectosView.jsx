@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material"
-import { BotonAddNew, BotonDelete } from "../modelComponents";
+import { BotonActualizar, BotonAddNew, BotonDelete } from "../modelComponents";
 import { FormAspectoModal, useAspectoStore } from "../aspectos";
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component';
@@ -21,7 +21,7 @@ export const AspectosView = () => {
     };
   
     fetchData();
-  }, [listaAspectos]);
+  }, []);//solo se ejecuta una vez
 
   useEffect(() => {
     setSelectedRows([]);
@@ -71,6 +71,11 @@ export const AspectosView = () => {
                     }))
                 : []
             ),
+            {
+              name: "Acciones",
+              cell: (row) => <BotonActualizar row={row} />, // boton para actualizar 
+              ignoreRowClick: true,
+            }
           ];
 
         
@@ -93,10 +98,11 @@ export const AspectosView = () => {
       <Typography>Aspectos de la Evaluación</Typography>
       <DataTable
          columns={columns}
-         data={events || []} // Asegúrate de que `events` esté mapeado aquí.
+         data={[...new Map(events.map(item => [item.id, item])).values()]} // Filtra duplicados por ID
          pagination
          highlightOnHover
          noDataComponent="No hay datos disponibles" // Personaliza el mensaje si no hay datos
+         
       />
          
     
@@ -112,8 +118,6 @@ export const AspectosView = () => {
             <BotonDelete selectedRows={selectedRows} 
             deleteEventoAspecto={deleteEventoAspecto}
             events={events} // Pasa la lista de eventos
-            
-            
             />
           
              

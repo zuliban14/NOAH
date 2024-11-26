@@ -15,13 +15,22 @@ const getPreguntas=async(req=response, res)=>{
         })
     } 
 }
+const getTipoPreguntas=async(req=response, res)=>{
+    try {
+        const listaTipopreguntas=await Pregunta.listaTipoPregnta(req);
+        return res.status(200).json({msg:'lis pregunta', data:listaTipopreguntas})
+        
+    } catch (error) {
+        res.status(500).json({msg:'no se pudo listar el tipo pregunta', error })
+    } 
+}
 
 
 
 const crearPreguntas=async(req, res)=>{
     try {
         const params= req.body;
-        console.log('paramsEDWI',params);
+        console.log('params',params);
         
         const aspectoid=params.id_aspectos;
         const tipopreid=params.id_tipo_pregunta;
@@ -118,6 +127,7 @@ module.exports={
     crearPreguntas,
     actualizarPreguntas,
     eliminarPreguntas,
-    buscarpreguntaPorAaspecto
+    buscarpreguntaPorAaspecto,
+    getTipoPreguntas
 
 }

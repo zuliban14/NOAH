@@ -2,6 +2,8 @@
 import { TurnedInNot } from '@mui/icons-material'
 import{Box, Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Grid} from '@mui/material'
 import { useAuthStore } from '../../hooks';
+
+
 //import { menuservice } from './menu.service';
 //import { useState } from 'react';
 export const SideBar = ({drawerWidth=240}) => {
@@ -36,7 +38,8 @@ export const SideBar = ({drawerWidth=240}) => {
           {
           [ 'Administrar Pagos','Admón.Prácticas','Consultorio Jurídico','Eventos','Gestion de Notas','Matriculas'].map (text =>(
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton >
+              
                 <ListItemIcon>
                 <TurnedInNot/>
                 </ListItemIcon>

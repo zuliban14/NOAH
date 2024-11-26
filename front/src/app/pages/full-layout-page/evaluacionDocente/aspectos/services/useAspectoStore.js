@@ -8,22 +8,65 @@ import Swal from "sweetalert2";
 export const useAspectoStore = () => {
     const dispatch=useDispatch();
    const{events,  activeEvent}= useSelector(state=>state.aspecto)
- 
+
 ///accion 
   const setActivarEvent=(aspectoEvent)=>{///el evento creado 
   dispatch(activarEvent(aspectoEvent))
   }
 
+  
+  ///lo que llega del backen 
 
+  const startAspecto=async(aspectoEvent)=>{
+    try {
+     
+          console.log("Enviando aspectoEvent:", aspectoEvent); // Verifica el contenido del objeto
+          if (aspectoEvent.id) {
+            // Si tiene ID, actualizar
+            await noahApi.put(`/evaDocente/updateAspecto/${aspectoEvent.id}`, aspectoEvent);
+            dispatch(actualizarAspecto(aspectoEvent)); // Actualiza el store
+            Swal.fire('Éxito', 'Aspecto actualizado correctamente', 'success');
+          } else {
+            // Si no tiene ID, crear
+            const response = await noahApi.post('/evaDocente/createAspecto', aspectoEvent);
+            const data = response.data;
+            dispatch(addEvenAspecto({ ...aspectoEvent, id: data.aspecto.id }));
+            Swal.fire('Éxito', 'Aspecto creado correctamente', 'success');
+          }
+        } catch (error) {
+          console.error('Error con el aspecto:', error);
+          const errorMsg =
+            error.response?.data?.msg || 'Hubo un problema al procesar la solicitud.';
+          Swal.fire('Error', errorMsg, 'error');
+        }
+    
+    // try {
+    //   if(aspectoEvent.id){
+    //     ///actualizando 
+    //     await noahApi.put(`evaDocente/updateAspecto/${aspectoEvent.id}`, aspectoEvent);
+    //     dispatch(actualizarAspecto({...aspectoEvent}))
+    
+    //   }//crear aspecto 
+    //   const{data}=await noahApi.post('/evaDocente/createAspecto', aspectoEvent);
+    //   console.log({data});
+    //   dispatch(addEvenAspecto({...aspectoEvent, id: data.aspecto.id}))
+  
+      
+    // } catch (error) {
+    //   console.log('error con el aspecto ');
+    //   Swal.fire('error al guardar', error.response.data.msg,'error');
+      
+    // }
 
- 
+  };
+
     const deleteEventoAspecto = async (id) => {
       try {
         const aspectoId = parseInt(id, 10); // Convertir a número entero
         if (isNaN(aspectoId) || aspectoId <= 0) { // Verificar que no sea NaN ni menor o igual a cero
           throw new Error("El ID debe ser un número entero positivo válido.");
         }
-        const response = await noahApi.delete(`/evaDocente/deleteAspecto/${aspectoId}`); // Usar tu instancia `noahApi`
+        const response = await noahApi.delete(`/evaDocente/deleteAspecto/${aspectoId}`); 
         console.log("Respuesta de la API:", response);
         
         if (!response.status === 200) {
@@ -37,46 +80,9 @@ export const useAspectoStore = () => {
         console.error("Error al eliminar el aspecto:", error.response?.data || error.message);
         throw error;
       }
-    // console.log('llego el id store ', aspectoEvent.id);
-    // if (!aspectoEvent.id) {
-    //   console.error('ID no encontrado');
-    //   Swal.fire('error al eliminar id', error.response.data.msg,'error');
-    //   return;
-    // }
-    // try {
-    //   console.error('ID enviado al backend ',aspectoEvent.id);
-    //   const response= await noahApi.delete(`/evaDocente/deleteAspecto/${aspectoEvent.id}`);
-    //   console.log('Aspecto eliminado:', response.data.msg,'error');
-    //   dispatch(deleteAspecto(aspectoEvent.id));
-    // } catch (error) {
-    //   console.log('error al eliminar el aspecto', error);
-    //   Swal.fire('error al eliminar', error.response.data.msg,'error');
-    // }
     
   }
 
-  ///lo que llega del backen 
-
-  const startAspecto=async(aspectoEvent)=>{
-    try {
-      if(aspectoEvent.id){
-        ///actualizando 
-        await noahApi.put(`evaDocente/updateAspecto/${aspectoEvent.id}`, aspectoEvent);
-        dispatch(actualizarAspecto({...aspectoEvent, user}))
-    
-      }//crear aspecto 
-      const{data}=await noahApi.post('/evaDocente/createAspecto', aspectoEvent);
-      console.log({data});
-      dispatch(addEvenAspecto({...aspectoEvent, id: data.aspecto.id}))
-  
-      
-    } catch (error) {
-      console.log('error con el aspecto ');
-      Swal.fire('error al guardar', error.response.data.msg,'error');
-      
-    }
-
-  }
 
   
   const listaAspectos=async()=>{

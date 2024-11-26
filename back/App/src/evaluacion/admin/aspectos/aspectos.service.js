@@ -56,13 +56,15 @@ async function buscarAspecto(aspectoid) {
 async function actualizarAspectos(params) {
   
   try {
-      const{id, nombre, descripcion, estado}=params;
-      if (!id || !nombre || !descripcion || !estado) {
-      throw new Error('Faltan parámetros');
-            }
+    const{id, nombre, descripcion }=params;
+    console.log('id:', id);
+    console.log('nombre:', nombre);
+    console.log('descripcion:', descripcion);
+   
+      
 
      const query='UPDATE eva.aspectos set nombre =$2, descripcion=$3, estado=$4 where id=$1 RETURNING *';
-     const result=await pool.query(query,[id, nombre, descripcion, estado])
+     const result=await pool.query(query,[id, nombre, descripcion, true])
 
      if (result.rows.length === 0) {
       console.log('No se encontró el aspecto con ese ID');

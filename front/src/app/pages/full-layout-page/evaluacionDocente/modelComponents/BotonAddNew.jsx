@@ -10,22 +10,11 @@ export const BotonAddNew = () => {
     const{setActivarEvent}=useAspectoStore();
 
     const handleclickNew=()=>{
-      
-        setActivarEvent({
-            nombre:'',
-            descripcion:''
-        });
+        setActivarEvent(null);//se envia en null para que limpie el formulario 
         openDateModal();
-
     };
 
   return (
-    // <button className="btn btn-primary fab"
-    // onClick={handleclickNew}
-    // >
-    //     <i className="fas fa-plus"></i>
-
-    // </button>
 
     
     <Grid>
