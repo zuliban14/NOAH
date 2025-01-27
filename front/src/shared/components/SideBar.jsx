@@ -29,14 +29,14 @@ export const SideBar = ({drawerWidth=240}) => {
         >
         </Drawer>
         <Toolbar>
-          <Typography variant="h6" noWrap component='div'>
+          <Typography variant="h9" noWrap component='div'>
             {user.nombre}
           </Typography>
           <Divider/>
         </Toolbar>
         <List>
           {
-          [ 'Administrar Pagos','Admón.Prácticas','Consultorio Jurídico','Eventos','Gestion de Notas','Matriculas'].map (text =>(
+          [ 'Administrar Pagos','Admón.Prácticas','Consultorio Jurídico','Eventos','Gestion de Notas','Matriculas', 'Evaluación Docente'].map (text =>(
             <ListItem key={text} disablePadding>
               <ListItemButton >
               
@@ -45,7 +45,7 @@ export const SideBar = ({drawerWidth=240}) => {
                 </ListItemIcon>
               <Grid container>
                  <ListItemText primary={text}/>
-                 <ListItemText secondary={'Anim mollit in ullamco culpa qui do aliqua.'}/>
+                 <ListItemText secondary={''}/>
               </Grid>
               </ListItemButton>
             </ListItem>

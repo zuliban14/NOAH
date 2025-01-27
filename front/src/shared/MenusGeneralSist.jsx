@@ -7,6 +7,7 @@ import { MenuLayout } from '../shared/layout/MenuLayout';
 
 import { AspectosView } from '../app/pages/full-layout-page/evaluacionDocente/aspectos';
 import { PreguntaView } from '../app/pages/full-layout-page/evaluacionDocente/preguntas';
+import { LogoView } from './LogoView';
 
 
 
@@ -22,11 +23,11 @@ export const MenusGeneralSist = () => {
     
 
     {/* <ModalAsp/> */}
-    <AspectosView/>
-    {/* <PreguntaView/> */}
+    {/* <AspectosView/> */}
+    <PreguntaView/>
+    {/* <LogoView/> */}
 
-    {/* <PruebaEd/> */}
-
+  
     {/* <IconButton
     size='large'
     sx={{

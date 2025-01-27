@@ -32,23 +32,23 @@ const crearPreguntas=async(req, res)=>{
         const params= req.body;
         console.log('params',params);
         
-        const aspectoid=params.id_aspectos;
+       
         const tipopreid=params.id_tipo_pregunta;
-        ///se validara el id si existeen aspetos y tipo pregunta
-        const existeaspecto= await Aspecto.buscarAspecto(aspectoid);
+        ///se validara el id si existeen tipo pregunta
+       
         const existetipo= await Pregunta.buscartipopregunta(tipopreid);
-        if(!existeaspecto){
-            return res.status(404).json({msg:'id aspecto no valido'})
-        }
+      
         if(!existetipo){
             return res.status(404).json({msg:'tipo de pregunta no valido'})
         }
 
-        const pregunta= await Pregunta.crearPregunta(params);
-       return res.status(200).json({ msg:'preguntas',data:pregunta});
-
+        console.log('Creando pregunta');
+        const pregunta = await Pregunta.crearPregunta(params);
+        console.log('Pregunta creada', pregunta);
+        return res.status(200).json({ msg: 'preguntas', data: pregunta });
         
     } catch (error) {
+        console.error('Error en crearPreguntas', error);
         res.status(500).json({msg:'no se pudo crear preguntas'})
     }
    
@@ -60,16 +60,11 @@ const actualizarPreguntas=async(req, res )=>{
     try {
         const params=req.body;
         const preguntaid=params.id;
-        const aspectoid=params.id_aspectos;
         const tipopreid=params.id_tipo_pregunta;
         const existePregunta=await Pregunta.buscarpregunta(preguntaid);
-        const existeaspecto= await Aspecto.buscarAspecto(aspectoid);
         const existetipo= await Pregunta.buscartipopregunta(tipopreid);
         if(!existePregunta){
             return res.status(404).json({msg:'no existe pregunta '})
-        }
-        if(!existeaspecto){
-            return res.status(404).json({msg:'id aspecto no valido'})
         }
         if(!existetipo){
             return res.status(404).json({msg:'tipo de pregunta no valido'})
@@ -86,8 +81,12 @@ const actualizarPreguntas=async(req, res )=>{
 }
 const eliminarPreguntas = async(req, res  )=>{
     try {
-        const params=req.body;
-        const preguntaid=params.id;
+        console.log("Parámetros recibidos:", req.params);
+        const preguntaid = parseInt(req.params.id, 10);  // Convertir el ID a número
+        if (isNaN(preguntaid) || preguntaid <= 0) {
+          // Si no es un número válido, lanzamos un error
+          return res.status(400).json({ mensaje: 'El ID debe ser un número válido' });
+        }
         
         const existePregunta=await Pregunta.buscarpregunta(preguntaid);
         if(!existePregunta){
@@ -97,10 +96,10 @@ const eliminarPreguntas = async(req, res  )=>{
         if (preguntaUtilizada.length > 0) {
             return res.status(400).json({msg:'no se puede elimira la pregunta, '});
         }
-        const result= await Pregunta.eliminarPregunta(params);
+        const result= await Pregunta.eliminarPregunta(preguntaid);
         return res.status(200).json({msg:'se elimino las preguntas',data:result})
     } catch (error) {
-        res.status(500).json({ok:false,msg:'no eliminarpreguntas'})
+        res.status(500).json({ok:false,msg:'no se elimino preguntas'})
     }
 
    

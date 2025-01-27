@@ -17,8 +17,12 @@ export const BotonAddNew = () => {
   return (
 
     
-    <Grid>
-    <Button variant="contained" color="primary" size="small"  onClick={handleclickNew} startIcon={<AddOutlined />}>
+    <Grid
+    container 
+    justifyContent="flex-end" // Alinea al lado derecho
+    alignItems="center" // Centra verticalmente
+    >
+    <Button variant="contained" color="customColor3" size="small"  onClick={handleclickNew} startIcon={<AddOutlined />}>
     
     </Button>
     
