@@ -20,7 +20,7 @@ export const useAspectoStore = () => {
   const startAspecto=async(aspectoEvent)=>{
     try {
      
-          console.log("Enviando aspectoEvent:", aspectoEvent); // Verifica el contenido del objeto
+          //console.log("Enviando aspectoEvent:", aspectoEvent); // Verifica el contenido del objeto
           if (aspectoEvent.id) {
             // Si tiene ID, actualizar
             await noahApi.put(`/evaDocente/updateAspecto/${aspectoEvent.id}`, aspectoEvent);
@@ -40,23 +40,6 @@ export const useAspectoStore = () => {
           Swal.fire('Error', errorMsg, 'error');
         }
     
-    // try {
-    //   if(aspectoEvent.id){
-    //     ///actualizando 
-    //     await noahApi.put(`evaDocente/updateAspecto/${aspectoEvent.id}`, aspectoEvent);
-    //     dispatch(actualizarAspecto({...aspectoEvent}))
-    
-    //   }//crear aspecto 
-    //   const{data}=await noahApi.post('/evaDocente/createAspecto', aspectoEvent);
-    //   console.log({data});
-    //   dispatch(addEvenAspecto({...aspectoEvent, id: data.aspecto.id}))
-  
-      
-    // } catch (error) {
-    //   console.log('error con el aspecto ');
-    //   Swal.fire('error al guardar', error.response.data.msg,'error');
-      
-    // }
 
   };
 
@@ -75,7 +58,7 @@ export const useAspectoStore = () => {
   
         // Si la eliminación fue exitosa, actualizamos el estado
         dispatch(deleteAspecto(aspectoId));
-        console.log(`Aspecto con ID ${aspectoId} eliminado correctamente.`);
+        console.log(`Aspecto con ID ${aspectoId} eliminado correctamente`);
       } catch (error) {
         console.error("Error al eliminar el aspecto:", error.response?.data || error.message);
         throw error;

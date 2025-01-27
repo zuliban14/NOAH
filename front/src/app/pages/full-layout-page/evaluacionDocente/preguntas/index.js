@@ -1,5 +1,6 @@
 
-export * from './usePreguntasStore';
-export * from './FormPreguntaModal';
-
+export * from './hookPregunta/preguntaSlice';
+export * from './services/usePreguntasStore';
 export * from './PreguntaView';
+export * from './hookPregunta/tipoPreguntaSlice';
+export * from './services/useTipoPreguntaStore';

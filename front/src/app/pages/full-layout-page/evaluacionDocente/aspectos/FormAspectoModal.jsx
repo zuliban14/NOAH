@@ -32,7 +32,7 @@ export const FormAspectoModal = () => {
    //const [isOpen, setIsOpen] = useState(true)
    ///estado adicional para validar campo, por defecto no se ha realizado el submit del formulario
    const [formSubmitted, setformSubmitted] = useState(false);
-   const{events, setActivarEvent, activeEvent, startAspecto}=useAspectoStore();
+   const{setActivarEvent, activeEvent, startAspecto}=useAspectoStore();
 
    const [formValues, setformValues] = useState({
     nombre: '',
@@ -67,15 +67,16 @@ export const FormAspectoModal = () => {
       nombre: '',
       descripcion: '',
     });
+    setformSubmitted(false);
     setActivarEvent(null);// Limpia el evento activo
-
    };
    ////para que se actualice y deje escribir en los campos de textos se crea 
    const onInputChange=({target})=>{// se recibe el evento pero se destructura el target 
        setformValues({// se llama todos los valores que tiene 
         ...formValues,
-        [target.name]:target.value}) //se actualiza le valor 
-   }
+        [target.name]:target.value,
+      }); //se actualiza le valor 
+   };
 
 
 
@@ -88,11 +89,27 @@ export const FormAspectoModal = () => {
 
     console.log("Formulario enviado:", formValues);
 
-    await startAspecto(formValues)
-
-    // Cerrar el modal después de enviar el formulario
-    closeDateModal();
-    setformSubmitted(false);
+    try {
+      await startAspecto(formValues);
+      Swal.fire({
+        icon: 'success',
+        title: 'Guardado',
+        text: 'El aspecto se guardó con éxito',
+      });
+      setformValues({
+        nombre: '',
+        descripcion: '',
+      });
+      
+      setformSubmitted(false);
+      closeDateModal();
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No se pudo guardar el aspecto. Por favor, intenta de nuevo.',
+      });
+    }
   };
 
   return (
@@ -105,11 +122,11 @@ export const FormAspectoModal = () => {
     
     >
         <Typography id="modal-modal-title" variant="h6" component="h2">
-                      Registrar Aspecto
+                      Aspecto
                 </Typography>
                 <form onSubmit={onSubmit}>
                     <TextField
-                      
+                        data-focus="first"
                         label="Nombre"
                         variant="outlined"
                         fullWidth

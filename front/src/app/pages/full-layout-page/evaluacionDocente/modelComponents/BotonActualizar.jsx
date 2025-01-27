@@ -2,11 +2,13 @@ import { Update } from '@mui/icons-material'
 import { useUiStoreAsp } from '../../../../../hooks';
 import { useAspectoStore } from '../aspectos';
 import { Grid,  Button } from "@mui/material"
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 
 export const BotonActualizar = ({row}) => {
     const {openDateModal}=useUiStoreAsp();
     const{setActivarEvent}=useAspectoStore();
+
     
 
     const handleUpdate=()=>{
@@ -22,8 +24,10 @@ export const BotonActualizar = ({row}) => {
 
     };
   return (
-    <Grid>
-    <Button variant="contained" color="primary" size="small"  onClick={handleUpdate} startIcon={<Update />}>
+    <Grid 
+    
+  >
+    <Button variant="contained" color="primary" size="small"  onClick={handleUpdate} startIcon={<EditOutlinedIcon />}>
     
     </Button>
     

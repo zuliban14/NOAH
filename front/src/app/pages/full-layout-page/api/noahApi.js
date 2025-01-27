@@ -9,7 +9,9 @@ const noahApi= axios.create( {
       'Content-Type': 'application/json', // Agregar el encabezado Content-Type
       'Authorization': 'Bearer <tu_token>', // Si usas autenticación basada en tokens
     },
+    
 });
+
 ////configuracion para el token que  se encuentra en los headers
 noahApi.interceptors.request.use(config=>{
    config.headers={

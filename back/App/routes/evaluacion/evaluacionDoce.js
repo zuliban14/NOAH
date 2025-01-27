@@ -32,6 +32,8 @@ router.post('/createAspecto',
      crearAspectos);
 router.put('/updateAspecto/:id',  actualizarAspectos);
 router.delete('/deleteAspecto/:id', eliminarAspectos);
+
+
 //////////////////////////////////////////////////////////////////////
 ///////////////////rutas PREGUNTAS//////////////////////////////////////////
 
@@ -43,9 +45,8 @@ router.post('/createPregunta',
         check('titulo', 'El titulo es obligatorio').not().isEmpty(),
         check('subtitulo', 'Ingresar el subtitulo').not().isEmpty(),
         check('imagen', 'no hay imagen'),
-        check('valor', 'Debe de ingresar el valor').not().isEmpty(),
-        check('id_aspectos', 'Debe seleccionar el aspecto a evaluar').not().isEmpty(),
-        check('id_tipo_pregunta', 'Debe selecionar el tipo de pregunta').not().isEmpty(),
+        check('valor', 'Debe de ingresar el valor'),
+        check('id_tipo_pregunta', 'Debe selecionar el tipo de pregunta'),
         validarCampos
     ],
      crearPreguntas);

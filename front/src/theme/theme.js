@@ -16,6 +16,13 @@ export const theme =createTheme({
         customColor1: {
             main: '#000307', // Agrega el color hexadecimal que prefieras
         },
+        customColor2: {
+            main: '#e46363', // Agrega el color hexadecimal que prefieras
+        },
+        customColor3: {
+            main: '#aaee9d', // Agrega el color hexadecimal que prefieras
+        },
+
 
         error:{
             main: red.A400

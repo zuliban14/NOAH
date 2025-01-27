@@ -1,10 +1,11 @@
 import {  Button, IconButton, MenuItem, TextField, Typography } from "@mui/material"
 import Modal from'react-modal';
 import { useUiStoreAsp } from "../../../../../hooks";
-import { UploadFile, UploadOutlined } from "@mui/icons-material";
+import { SaveOutlined, UploadFile, UploadOutlined } from "@mui/icons-material";
 import { useEffect, useRef, useState } from "react";
-import { useAspectoStore } from "../aspectos";
-import { usePreguntasStore } from "./usePreguntasStore";
+import {activaEvent as activeEvent, usePreguntasStore, useTipoPreguntaStore  } from "./";
+
+import Swal from "sweetalert2";
 
 
 const customStyles = {
@@ -16,69 +17,163 @@ const customStyles = {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
     },
-  };
+};
  
-;
 Modal.setAppElement('#root');
 export const FormPreguntaModal = () => {
     const { isDateModalOpen, closeDateModal } = useUiStoreAsp();
-    const {listaTipoPregunta}=usePreguntasStore();
-    const {listaAspectos, events, setActivarEvent }=useAspectoStore();
+    const {listaTipoPregunta, tipoPregunta}=useTipoPreguntaStore();
+    const { activeEvent, setActivarEvent, startPregunta, listPregunta} = usePreguntasStore();
     const [options, setOptions] = useState([]); // Estado para las opciones de la lista
-    const [selectedOption, setSelectedOption] = useState(''); // Estado para la opción seleccionada
+   // const [selectedOption, setSelectedOption] = useState(''); // Estado para la opción seleccionada
     const subirImagen=useRef();//ref: funcion para simulacion del boton de archivos
-
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Si listaAspectos devuelve datos, llámalo
-                await listaAspectos();
-        
-                // muestara los datos que trae el events en la listaAspecto 
-                console.log('Datos obtenidos desde events para eventos:', events);
-        
-                // el arreglo events
-                if (Array.isArray(events)) {
-                  setOptions(
-                    events.map((aspecto) => ({
-                      value: aspecto.id,
-                      label: aspecto.descripcion,
-                    }))
-                  );
-                } else {
-                  console.log('El formato de datos en events no es válido.');
-                }
-              } catch (error) {
-                console.log('Error al cargar el data:', error);
-              }
-            };
-            fetchData();
-    }, [events]);
-
-
-   
-
-  
-
-    const onCloseModal=()=>{
-        closeDateModal();
-        console.log('cerrar modal');
-
-        setActivarEvent(null);// Limpia el evento activo
     
-       };
+       ///estado adicional para validar campo, por defecto no se ha realizado el submit del formulario
+       const [formSubmitted, setformSubmitted] = useState(false);
+       ///para activar los los datos 
+       const [formValores, setformValores] = useState({
+        titulo:'',
+        subtitulo:'',
+        imagen:'',
+        valor:'',
+        id_tipo_pregunta:'',
+  
+      })
+  
+       useEffect(() => {
+        console.log("activeEvent actualizadar:", activeEvent);
+        if (activeEvent) {
+          setformValores({
+            titulo: activeEvent.titulo || '',
+            subtitulo: activeEvent.subtitulo || '',
+            imagen: activeEvent.imagen || '',
+            valor: activeEvent.valor || '',
+            id_tipo_pregunta: activeEvent.id_tipo_pregunta || '',
+          });
+        } else {
+          setformValores({
+            titulo: '',
+            subtitulo: '',
+            imagen: '',
+            valor: '',
+            id_tipo_pregunta: '',
+          });
+        }
+      }, [activeEvent]);
 
-       const onFileInputChange=({target})=>{
-        console.log('archivos', target.files);
+ 
+ 
+//////la lista del tipo de pregunata 
 
-       }
-       const handleSelectChange = ({target}) => {
-        setSelectedOption(target.value);
-        console.log('Opción seleccionada:', target.value);
+useEffect(() => {
+  const fetchData = async () => {
+      // Cargar los datos solo si tipoPregunta está vacío
+      if (tipoPregunta.length === 0) {
+          await listaTipoPregunta();
+      }
+  };
+  fetchData();
+}, [tipoPregunta.length, listaTipoPregunta]); // Dependemos solo de tipoPregunta.length
+
+useEffect(() => {
+  if (Array.isArray(tipoPregunta)) {
+    setOptions(
+      tipoPregunta.map((tipoPregu) => ({
+        value: tipoPregu.id, // Esto debe coincidir con el valor que se pasa en el Select
+        label: tipoPregu.nombre,
+      }))
+    );
+  }
+}, [tipoPregunta]);
+    //////////PARA CERRAR MODAL 
+    const onCloseModal = () => {
+      closeDateModal();
+      setformValores({
+          titulo: '',
+          subtitulo: '',
+          imagen: '',
+          valor: '',
+          id_tipo_pregunta: '',
+      }); // Resetea el formulario
+      setformSubmitted(false);
+      setActivarEvent(null); // Limpia el estado activo
+  };
+////////para la imagen //////
+        const onFileInputChange = ({ target }) => {
+          setformValores({
+            ...formValores,
+            imagen: target.files[0]?.name || "",
+          });const onFileInputChange = ({ target }) => {
+            setformValores({
+              ...formValores,
+              imagen: target.files[0]?.name || "",
+            });
+          };
+        };
+
+      const handleSelectChange = ({target}) => {
+        //setSelectedOption(target.value);
+        const selectedValue = target.value;
+        console.log('Opción seleccionada:', target.value);  // Debería ser el id del tipo de pregunta
+        setformValores({
+            ...formValores,
+           // tipoPregunta: target.value,  // El value es el id de tipo de pregunta
+            id_tipo_pregunta: selectedValue,
+          });
+    };
+
+      ///en el campo del formulario deje agregar los datos 
+      const onInputChange=({target})=>{
+        setformValores({
+          ...formValores,
+          [target.name]:target.value,
+        });
+
       };
 
+      const onSubmit = async (event) => {
+        event.preventDefault();
+        setformSubmitted(true);
+        console.log("Enviando datos al backend:", formValores); // Verifica los valores antes de enviarlos
+        //await startPregunta(formValores);
+        //se valida datos 
+    
+        if (formValores.titulo.trim().length === 0) {
+          Swal.fire('Error', 'El título es obligatorio.', 'error');
+          return;
+      }
+      if (!formValores.id_tipo_pregunta) {
+          Swal.fire('Error', 'Debe seleccionar un tipo de pregunta.', 'error');
+          return;
+      }
+    
+        console.log("Formulario enviado:", formValores);
+    
+        try {
+            await startPregunta(formValores); // Llamada a la función del storePregunta para adicionar o actualiazar datos 
+            await listPregunta();///actualiza la lista 
+            setformValores({
+              titulo: '',
+              subtitulo: '',
+              imagen: '',
+              valor: '',
+              id_tipo_pregunta: '',
+            });
+            Swal.fire('Éxito', 'La pregunta se guardó correctamente.', 'success');
+          
+    
+        setformSubmitted(false);
+        closeDateModal();
+            
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo guardar la pregunta. Por favor, intenta de nuevo.',
+            });
+            console.log('error formulario pregunta', error);
+        }
+    };
       
        
       
@@ -91,17 +186,20 @@ export const FormPreguntaModal = () => {
    // className="modal"
     overlayClassName="modal-fondo"
         >
-        <form>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+                      PREGUNTA
+                </Typography>
+        <form onSubmit={onSubmit}>
             <TextField 
             label="Titulo"
             variant="outlined"
             fullWidth
             margin="normal"
             name="titulo"
-            //value={formValues.nombre || ''}
-            //onChange={onInputChange}
-            //error={formSubmitted && formValues.nombre.trim().length === 0}
-          
+            value={formValores.titulo || ''}
+            onChange={onInputChange}
+            error={formSubmitted && formValores.titulo.trim().length === 0}
+            helperText={formSubmitted && formValores.titulo.trim().length === 0 ? 'El título es obligatorio' : ''}
             />
 
             <TextField
@@ -110,28 +208,19 @@ export const FormPreguntaModal = () => {
             fullWidth
             margin="normal"
             name="subtitulo"
+            value={formValores.subtitulo || ''}
+            onChange={onInputChange}
             />
             <Typography>Ingrese la imagen</Typography>
-            
-            <input
-            type="file"
-            multiple
-            ref={subirImagen}
-            onChange={onFileInputChange}
-            style={{display:'none'}}
-            />
-            <IconButton
-             color="primary"
-             onClick={()=> subirImagen.current.click()}//al dar click al icono llama al input
-            >
-                <UploadOutlined/>
-            </IconButton>
+
              <TextField
             label="Imagen"
             variant="outlined"
             fullWidth
             margin="normal"
             name="imagen"
+            value={formValores.imagen || ''}
+            onChange={onInputChange}
             />
 
            <TextField
@@ -140,41 +229,42 @@ export const FormPreguntaModal = () => {
             fullWidth
             margin="normal"
             name="valor"
+            value={formValores.valor || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              // Convierte el valor a un número entero
+              setformValores({
+                ...formValores,
+                valor: value === '' ? '' : parseInt(value, 10) || ''// Si el valor es vacío, lo dejamos vacío
+              });
+          }}
+            type="number"
             />
+            
             {/* Campo de lista */}
-        <TextField
+      {/* Campo de lista */}
+      <TextField
           select
           label="Seleccione una opción"
-          value={selectedOption}
+          value={formValores.id_tipo_pregunta || ''}  // Asegúrate de que sea un valor válido
           onChange={handleSelectChange}
           fullWidth
           margin="normal"
         >
           {options.length > 0 ? (
-                options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                </MenuItem>
-                ))
-            ) : (
-                <MenuItem disabled>No hay opciones disponibles</MenuItem>
-            )}
-            </TextField>
-        {/* <TextField
-          select
-          label="Seleccione una opción"
-          value={selectedOption}
-          onChange={handleSelectChange}
-          fullWidth
-          margin="normal"
-        >
-          {options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField> */}
+            options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>No hay opciones disponibles</MenuItem>
+          )}
+        </TextField>
 
+            <Button  variant="contained" color="primary" type="submit" fullWidth  >
+                       <SaveOutlined sx={{fontSize:30, mr:1}}/>
+                    </Button>
             
 
         </form>
